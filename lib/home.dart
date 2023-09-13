@@ -1,10 +1,16 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:weather_prediction_app/Urgency.dart';
 import 'package:weather_prediction_app/colors.dart';
 import 'package:intl/intl.dart';
 
+String selected = "TOM";
+
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final Urgency urgency;
+  const Home({super.key, required this.urgency});
 
   @override
   State<Home> createState() => _HomeState();
@@ -14,12 +20,13 @@ class _HomeState extends State<Home> {
   //These variables will be read from the API/data model we will read from
   String weather = "Partly Cloudy";
   String prediction = "1 hour 45 minutes";
-  int accuracy = 67;
+  int accuracy = 89;
   //build function for main homepage, main page of the application
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: bgStandard,
       body: Column(
         children: [
@@ -45,9 +52,13 @@ class _HomeState extends State<Home> {
             ),
           ),
           const SizedBox(
-            height: 25.0,
+            height: 12.5,
           ),
+          dayButtons(),
+          const SizedBox(height: 12.5),
           weatherCard(),
+          const SizedBox(height: 25),
+          createUrgencyCard(),
         ],
       ),
     ));
@@ -81,9 +92,12 @@ class _HomeState extends State<Home> {
   }
 
   //Widget for weather prediction
-  Card weatherCard() {
-    return Card(
-      color: blue,
+  Container weatherCard() {
+    return Container(
+      decoration: BoxDecoration(
+        color: blue,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
       child: SizedBox(
         width: 360,
         height: 180,
@@ -169,6 +183,66 @@ class _HomeState extends State<Home> {
             style: TextStyle(fontSize: 20),
           )
         ],
+      ),
+    );
+  }
+
+  //button to change day-wise details.
+  Widget dayButtons() {
+    return SegmentedButton<String>(
+      segments: const [
+        ButtonSegment<String>(value: "TOD", label: Text("Today")),
+        ButtonSegment<String>(value: "TOM", label: Text("Tomorrow")),
+      ],
+      selected: <String>{selected},
+      onSelectionChanged: (Set<String> newSelection) {
+        setState(() {
+          selected = newSelection.first;
+        });
+      },
+    );
+  }
+
+  Widget createUrgencyCard() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+        gradient: widget.urgency.bg,
+      ),
+      child: SizedBox(
+        height: 140,
+        width: 360,
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "⚠ Expected Cloud burst: ${widget.urgency.name} RISK",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8.0),
+              Text(
+                "A cloudburst is expected in 24 days",
+                style: TextStyle(color: Colors.white, fontSize: 14),
+              ),
+              const SizedBox(height: 20),
+              GestureDetector(
+                onTap: () {}, //Show user precautions: TODO
+                child: Text(
+                  "Necessary Precautions>>",
+                  style: TextStyle(
+                      color: Color(0xFFFAFF00),
+                      fontSize: 12,
+                      decoration: TextDecoration.underline),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
