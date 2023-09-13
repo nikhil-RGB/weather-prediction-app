@@ -15,3 +15,5 @@ const Color items_dark = Color.fromARGB(255, 151, 146, 151);
 
 const Color component_bright = Color(0xFFF62C2C);
 const Color component_light = Color(0xFFECEDED);
+const Color blue = Color(0xFFCBF3F9);
+const Color bgStandard = Color(0xFFEFFBFF);
