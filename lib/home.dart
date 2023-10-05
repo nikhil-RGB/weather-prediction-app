@@ -28,40 +28,43 @@ class _HomeState extends State<Home> {
         child: Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: bgStandard,
-      body: Column(
-        children: [
-          createSearcher(),
-          Padding(
-            padding: const EdgeInsets.only(left: 24.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Row(
-                children: [
-                  const Text(
-                    "Potheri, Chennai",
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.26),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.location_city_outlined),
-                    color: Colors.green,
-                  )
-                ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            createSearcher(),
+            Padding(
+              padding: const EdgeInsets.only(left: 24.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    const Text(
+                      "Potheri, Chennai",
+                      style:
+                          TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.26),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.location_city_outlined),
+                      color: Colors.green,
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 12.5,
-          ),
-          dayButtons(),
-          const SizedBox(height: 12.5),
-          weatherCard(),
-          const SizedBox(height: 25),
-          createUrgencyCard(),
-          const SizedBox(height: 25),
-          additionalInformationCard(),
-        ],
+            const SizedBox(
+              height: 12.5,
+            ),
+            dayButtons(),
+            const SizedBox(height: 12.5),
+            weatherCard(),
+            const SizedBox(height: 25),
+            createUrgencyCard(),
+            const SizedBox(height: 25),
+            additionalInformationCard(),
+          ],
+        ),
       ),
     ));
   }

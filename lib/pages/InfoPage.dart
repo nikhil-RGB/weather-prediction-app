@@ -6,26 +6,23 @@ class InfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body:infoWidget(),
+      body: infoWidget(),
     ));
   }
 
-  Widget infoWidget() 
-  {
+  Widget infoWidget() {
     return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-    Image.asset("assets/images/sample.jpg"),
-    information1(text: "Sample text"),
-    ],
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Image.asset("assets/images/sample.jpg"),
+        information1(text: "Sample text"),
+      ],
     );
   }
 
-  Container information1({required String text})
-  {
+  Container information1({required String text}) {
     return Container(
-      child: Text("
-      "),
+      child: Text("information"),
     );
   }
 }
