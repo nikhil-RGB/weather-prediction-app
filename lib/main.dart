@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_prediction_app/LandingPage.dart';
 import 'package:weather_prediction_app/Urgency.dart';
 import 'package:weather_prediction_app/colors.dart';
 import 'package:weather_prediction_app/home.dart';
@@ -20,9 +21,7 @@ class MyApp extends StatelessWidget {
         primaryColor: component_bright,
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
       ),
-      home: const Home(
-        urgency: Urgency.MEDIUM,
-      ),
+      home: LandingPage(),
     );
   }
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,7 +6,7 @@ import 'package:weather_prediction_app/Urgency.dart';
 import 'package:weather_prediction_app/colors.dart';
 import 'package:intl/intl.dart';
 
-String selected = "TOM";
+String selected = "TOD";
 
 class Home extends StatefulWidget {
   final Urgency urgency;
@@ -28,38 +28,43 @@ class _HomeState extends State<Home> {
         child: Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: bgStandard,
-      body: Column(
-        children: [
-          createSearcher(),
-          Padding(
-            padding: const EdgeInsets.only(left: 24.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Row(
-                children: [
-                  const Text(
-                    "Location Name",
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.26),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.location_city_outlined),
-                    color: Colors.green,
-                  )
-                ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            createSearcher(),
+            Padding(
+              padding: const EdgeInsets.only(left: 24.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    const Text(
+                      "Potheri, Chennai",
+                      style:
+                          TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.26),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.location_city_outlined),
+                      color: Colors.green,
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 12.5,
-          ),
-          dayButtons(),
-          const SizedBox(height: 12.5),
-          weatherCard(),
-          const SizedBox(height: 25),
-          createUrgencyCard(),
-        ],
+            const SizedBox(
+              height: 12.5,
+            ),
+            dayButtons(),
+            const SizedBox(height: 12.5),
+            weatherCard(),
+            const SizedBox(height: 25),
+            createUrgencyCard(),
+            const SizedBox(height: 25),
+            additionalInformationCard(),
+          ],
+        ),
       ),
     ));
   }
@@ -242,6 +247,63 @@ class _HomeState extends State<Home> {
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget additionalInformationCard() {
+    return SizedBox(
+      height: 140,
+      width: 360,
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              infoField("Wind Speed", "12 kmph"),
+              infoField("Cloud Cover", "45%"),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              infoField("Wind Direction", "102 deg"),
+              infoField("Rainfall", "0mm"),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              infoField("Humidity", "12%"),
+              infoField("Precipitation", "0mm")
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget infoField(String label, String info) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: RichText(
+        text: TextSpan(
+          text: '$label ',
+          style: TextStyle(
+            color: const Color(0xFF433B3B),
+            fontWeight: FontWeight.bold,
+            fontSize: 10,
+          ),
+          children: [
+            TextSpan(
+              text: '$info',
+              style: TextStyle(
+                color: const Color(0xFFA4A4A4),
+                fontSize: 11,
+              ),
+            ),
+          ],
         ),
       ),
     );
