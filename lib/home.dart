@@ -5,6 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_prediction_app/Urgency.dart';
 import 'package:weather_prediction_app/colors.dart';
 import 'package:intl/intl.dart';
+import 'dart:math';
+
+import 'package:weather_prediction_app/pages/InfoPage.dart';
 
 String selected = "TOD";
 
@@ -18,12 +21,45 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   //These variables will be read from the API/data model we will read from
-  String weather = "Partly Cloudy";
-  String prediction = "1 hour 45 minutes";
+  String weather = "Sunny";
+  String prediction = "   -     ";
+  int temperature = 0;
   int accuracy = 89;
+  Widget dateWidget = const SizedBox();
+  int windspeed = 19;
+  String direction = "45°NE";
+  int humidity = 8;
+  String cloud_cover = "medium";
+  int rainfall = 0;
+  int precipitation = 0;
+
   //build function for main homepage, main page of the application
   @override
   Widget build(BuildContext context) {
+    if (selected != "TOD") {
+      windspeed = 21;
+      direction = "315°NE";
+      humidity = 79;
+      cloud_cover = "medium";
+      rainfall = 72;
+      precipitation = 91;
+    } else {
+      windspeed = 19;
+      direction = "45°NE";
+      humidity = 8;
+      cloud_cover = "medium";
+      rainfall = 0;
+      precipitation = 0;
+    }
+
+    weather = selected == "TOD" ? "Sunny" : "Slightly Cloudy";
+    dateWidget = selected == "TOD" ? currentDate(false) : currentDate(true);
+    prediction = selected == "TOD" ? "  -    " : "~5-6 hours";
+    Random random = Random();
+    accuracy = random.nextInt(40) + 57;
+    int n = 28;
+    int m = 32;
+    temperature = n + random.nextInt(m - n + 1);
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -118,10 +154,10 @@ class _HomeState extends State<Home> {
                       child: Image.asset('assets/images/sunny.png')),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.08),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    "28 °C",
+                    "$temperature °C",
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
@@ -129,7 +165,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.26),
-                currentDate(),
+                dateWidget,
               ],
             ),
             const SizedBox(
@@ -140,7 +176,7 @@ class _HomeState extends State<Home> {
                 predictionText(),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.12),
                 Text(
-                  "     $accuracy % \naccuracy",
+                  "     $precipitation % \nprecipitation",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                 )
               ],
@@ -171,9 +207,15 @@ class _HomeState extends State<Home> {
   }
 
   //gets a current date string
-  Widget currentDate() {
+  Widget currentDate(bool tomm) {
     DateTime now = DateTime.now();
+    if (tomm) {
+      now = now.add(Duration(days: 1));
+    }
     String month = DateFormat.MMMM().format(now);
+    if (tomm) {
+      now.add(Duration(days: 1));
+    }
     return SizedBox(
       height: 50,
       width: 30,
@@ -231,12 +273,19 @@ class _HomeState extends State<Home> {
               ),
               const SizedBox(height: 8.0),
               Text(
-                "A cloudburst is expected in 24 days",
+                widget.urgency == Urgency.LOW
+                    ? "No Cloudburst expected soon"
+                    : "A cloudburst is expected in 24 days",
                 style: TextStyle(color: Colors.white, fontSize: 14),
               ),
               const SizedBox(height: 20),
               GestureDetector(
-                onTap: () {}, //Show user precautions: TODO
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => InfoPage()),
+                  );
+                }, //Show user precautions: TODO
                 child: Text(
                   "Necessary Precautions>>",
                   style: TextStyle(
@@ -261,22 +310,22 @@ class _HomeState extends State<Home> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              infoField("Wind Speed", "12 kmph"),
-              infoField("Cloud Cover", "45%"),
+              infoField("Wind Speed", "$windspeed kmph"),
+              infoField("Cloud Cover", "$cloud_cover"),
             ],
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              infoField("Wind Direction", "102 deg"),
-              infoField("Rainfall", "0mm"),
+              infoField("Wind Direction", "$direction"),
+              infoField("Rainfall", "$rainfall mm"),
             ],
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              infoField("Humidity", "12%"),
-              infoField("Precipitation", "0mm")
+              infoField("Humidity", "$humidity%"),
+              infoField("Precipitation", "$precipitation%")
             ],
           ),
         ],

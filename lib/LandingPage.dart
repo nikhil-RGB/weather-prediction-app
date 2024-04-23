@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_prediction_app/Statistics.dart';
 import 'package:weather_prediction_app/Urgency.dart';
 import 'package:weather_prediction_app/home.dart';
 import 'package:weather_prediction_app/pages/InfoPage.dart';
@@ -15,10 +16,8 @@ class _LandingPageState extends State<LandingPage> {
   int _currentPage = 0; //index for which page app is currently on.
   //List of screens in the app
   final List<Widget> screens = [
-    Home(urgency: Urgency.HIGH),
-    Center(
-      child: Text("No implementation yet!"),
-    ),
+    Home(urgency: Urgency.LOW),
+    Statistics(),
     InfoPage(),
   ];
   @override
